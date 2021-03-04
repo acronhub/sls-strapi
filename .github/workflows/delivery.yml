@@ -1,0 +1,53 @@
+name: Delivery
+
+on: 
+  push:
+    branches:
+      - master
+
+env:
+  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+  GCP_REGION: ${{ secrets.GCP_REGION }}
+  IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT }}/strapi:${{ github.sha }}
+
+jobs:
+  delivery:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v1
+
+      - name: GCP Authenticate
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure docker to use the gcloud cli
+        run: gcloud auth configure-docker
+
+      - name: Build a docker image
+        run: docker build -t $IMAGE . -f docker/strapi/Dockerfile
+
+      - name: Push the docker image
+        run: docker push $IMAGE
+
+      - name: Deploy to Cloud Run
+        run: |
+            gcloud run deploy strapi \
+              --image $IMAGE \
+              --project $GCP_PROJECT \
+              --region $GCP_REGION \
+              --platform managed \
+              --allow-unauthenticated \
+              --port 1337 \
+              --service-account "${{ secrets.GCP_CLOUDSQL_SA }}" \
+              --set-env-vars "DATABASE_SOCKETPATH=/cloudsql/${{ secrets.GCP_CLOUDSQL_INSTANCES }}" \
+              --set-env-vars "DATABASE_NAME=${{ secrets.GCP_DATABASE_NAME }}" \
+              --set-env-vars "DATABASE_USERNAME=${{ secrets.GCP_DATABASE_USERNAME }}" \
+              --set-env-vars "DATABASE_PASSWORD=${{ secrets.GCP_DATABASE_PASSWORD }}" \
+              --set-env-vars "INSTANCE_CONNECTION_NAME=${{ secrets.GCP_CLOUDSQL_INSTANCES }}" \
+              --add-cloudsql-instances ${{ secrets.GCP_CLOUDSQL_INSTANCES }}

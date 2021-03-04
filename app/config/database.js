@@ -2,19 +2,27 @@ module.exports = ({ env }) => ({
   defaultConnection: 'default',
   connections: {
     default: {
-      connector: 'mongoose',
+      connector: 'bookshelf',
       settings: {
+        client: 'mysql',
         host: env('DATABASE_HOST', 'db'),
-        srv: env.bool('DATABASE_SRV', false),
-        port: env.int('DATABASE_PORT', 27017),
+        socketPath: env('DATABASE_SOCKETPATH', ''),
+        port: env.int('DATABASE_PORT', 3306),
         database: env('DATABASE_NAME', 'strapi'),
-        username: env('DATABASE_USERNAME', ''),
-        password: env('DATABASE_PASSWORD', ''),
-      },
-      options: {
-        authenticationDatabase: env('AUTHENTICATION_DATABASE', null),
+        username: env('DATABASE_USERNAME', 'strapi'),
+        password: env('DATABASE_PASSWORD', 'strapi'),
         ssl: env.bool('DATABASE_SSL', false),
       },
+      options: {
+        "debug": true,
+        "pool": {
+          "min": 0,
+          "max": 10,
+          "idleTimeoutMillis": 30000,
+          "createTimeoutMillis": 30000,
+          "acquireTimeoutMillis": 30000
+        }
+      }
     },
   },
 });

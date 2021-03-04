@@ -3,31 +3,47 @@ version: '3'
 services:
   strapi:
     build:
-      context: ./docker/strapi
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/strapi/Dockerfile.local
     environment:
-      - PORT=1337
-      - ADMIN_JWT_SECRET=d1137b800b43ec78d42b6446ecbb2f78
+      - DATABASE_CLIENT=mysql
       - DATABASE_HOST=db
-      - DATABASE_PORT=27017
+      - DATABASE_PORT=3306
       - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=strapi
+      - DATABASE_PASSWORD=strapi
     ports:
       - 1337:1337
     working_dir: /opt/app
     volumes:
       - ./app:/opt/app
+      - node_modules:/opt/app/node_modules
     depends_on:
       - db
+    networks:
+          - gatsby_network
 
   db:
-    image: mongo
-    environment:
-      - MONGO_INITDB_DATABASE=strapi
-    ports:
-      - 27017:27017
-    volumes:
-      - ./.db:/data/db
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
     restart: always
+    environment:
+      MYSQL_DATABASE: strapi
+      MYSQL_USER: strapi
+      MYSQL_PASSWORD: strapi
+      MYSQL_ROOT_PASSWORD: strapi
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+          - gatsby_network
+
+networks:
+  gatsby_network:
+    external: true
 
 volumes:
-  .db:
+  node_modules:
+  db-data:

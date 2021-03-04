@@ -27,15 +27,8 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-# Serverless directories
-.serverless/
-
-# DynamoDB Local files
-.dynamodb/
-
-# MongoDB Local files
-.db/
-
+# Strapi コレクション
+app/api/*
 
 # yarn v2
 .yarn/cache

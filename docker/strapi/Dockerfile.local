@@ -1,6 +1,6 @@
 FROM strapi/base:12
 
-ARG NODE_ENV=production
+ARG NODE_ENV=development
 ARG SRC_DIR="./app"
 ARG APP_ROOT="/opt/app"
 
@@ -8,9 +8,6 @@ WORKDIR ${APP_ROOT}
 
 COPY ${SRC_DIR} ${APP_ROOT}
 
-RUN yarn install
-RUN yarn build
-
 EXPOSE 1337
 
-CMD ["yarn", "start"]
+CMD ["yarn", "develop"]

@@ -1,0 +1,32 @@
+[mysqld]
+character-set-server=utf8
+collation-server = utf8_general_ci
+pid-file  = /var/run/mysqld/mysqld.pid
+socket    = /var/run/mysqld/mysqld.sock
+datadir   = /var/lib/mysql
+#log-error  = /var/log/mysql/error.log
+# By default we only accept connections from localhost
+#bind-address = 127.0.0.1
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Log slow queries. Slow queries are queries which take more than the
+# amount of time defined in "long_query_time" or which do not use
+# indexes well, if log_short_format is not enabled. It is normally good idea
+# to have this turned on if you frequently add new queries to the
+# system.
+slow_query_log
+# All queries taking more than this amount of time (in seconds) will be
+# trated as slow. Do not use "1" as a value here, as this will result in
+# even very fast queries being logged from time to time (as MySQL
+# currently measures time with second accuracy only).
+slow_query_log_file=mysql-slow.log
+long_query_time=1
+min_examined_row_limit=0
+# Enable binary logging. This is required for acting as a MASTER in a
+# replication configuration. You also need the binary log if you need
+# the ability to do point in time recovery from your latest backup.
+log-bin=mysql-bin
+expire_logs_days=3
+relay-log=mysqld-relay-bin
+relay-log-index=mysqld-relay-bin
+server-id=100
