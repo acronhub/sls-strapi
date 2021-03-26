@@ -1,6 +1,7 @@
 FROM strapi/base:12
 
-ARG NODE_ENV=production
+ENV NODE_ENV=production
+
 ARG SRC_DIR="./app"
 ARG APP_ROOT="/opt/app"
 
