@@ -28,7 +28,7 @@ jspm_packages/
 .env
 
 # Strapi コレクション
-app/api/*
+#app/api/*
 
 # yarn v2
 .yarn/cache
