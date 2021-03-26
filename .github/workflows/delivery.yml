@@ -50,4 +50,5 @@ jobs:
               --set-env-vars "DATABASE_USERNAME=${{ secrets.GCP_DATABASE_USERNAME }}" \
               --set-env-vars "DATABASE_PASSWORD=${{ secrets.GCP_DATABASE_PASSWORD }}" \
               --set-env-vars "INSTANCE_CONNECTION_NAME=${{ secrets.GCP_CLOUDSQL_INSTANCES }}" \
+              --set-env-vars "BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }}" \
               --add-cloudsql-instances ${{ secrets.GCP_CLOUDSQL_INSTANCES }}
