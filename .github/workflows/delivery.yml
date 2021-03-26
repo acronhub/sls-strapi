@@ -44,7 +44,7 @@ jobs:
               --platform managed \
               --allow-unauthenticated \
               --port 1337 \
-              --service-account "${{ secrets.GCP_CLOUDSQL_SA }}" \
+              --service-account "${{ secrets.GCP_CLOUDRUN_SA }}" \
               --set-env-vars "DATABASE_SOCKETPATH=/cloudsql/${{ secrets.GCP_CLOUDSQL_INSTANCES }}" \
               --set-env-vars "DATABASE_NAME=${{ secrets.GCP_DATABASE_NAME }}" \
               --set-env-vars "DATABASE_USERNAME=${{ secrets.GCP_DATABASE_USERNAME }}" \

@@ -8,6 +8,8 @@ WORKDIR ${APP_ROOT}
 
 COPY ${SRC_DIR} ${APP_ROOT}
 
+RUN yarn install
+
 EXPOSE 1337
 
 CMD ["yarn", "develop"]
