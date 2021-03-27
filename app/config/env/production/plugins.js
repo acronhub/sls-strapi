@@ -3,8 +3,7 @@ module.exports = ({ env }) => ({
     provider: 'google-cloud-storage',
     providerOptions: {
       bucketName: env('BUCKET_NAME', 'strapi-resources'),
-      baseUrl: '{bucket-name}',
-      uniform: true,
+      baseUrl: 'http://{bucket-name}',
     },
   },
 });
