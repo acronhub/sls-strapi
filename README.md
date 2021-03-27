@@ -18,12 +18,6 @@ docker network create gatsby_network
 docker network ls
 ```
 
-## 環境構築
-
-```bash
-docker-compose run --rm strapi yarn install
-```
-
 ## 起動
 
 ```bash
