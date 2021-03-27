@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     networks:
-          - gatsby_network
+      - gatsby_network
 
   db:
     build:
@@ -38,7 +38,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-          - gatsby_network
+      - gatsby_network
 
 networks:
   gatsby_network:
